@@ -7,25 +7,39 @@ class StudentHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            /// hero
-            SizedBox(
-              height: Responsive.height(context),
-              child: Stack(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              /// become teacher
+              BecomeTeacherFloat(),
+
+              /// hero
+              Stack(
                 children: [
+                  /// image
                   if (!Responsive.isMobile(context))
                     Align(
                       alignment: Alignment.topRight,
                       child: HeroImage(),
                     ),
+
+                  /// header
                   if (!Responsive.isMobile(context))
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.topLeft,
+                      child: Header(),
+                    ),
+
+                  /// hero title
+                  if (!Responsive.isMobile(context))
+                    Positioned(
+                      top: Responsive.height(context) * 0.25,
                       child: HeroTitle(),
                     ),
 
+                  ///----------------------------///
+                  /// mobile view
                   if (Responsive.isMobile(context))
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -46,24 +60,38 @@ class StudentHome extends StatelessWidget {
                     ),
 
                   /// header
-                  Header(),
+                  if (Responsive.isMobile(context)) Header(),
                 ],
               ),
-            ),
+              SizedBox(height: 64),
 
-            /// services
-            FeatureTile(
-              svgPath: 'assets/images/features.png',
-            ),
+              /// services
+              FeatureTile(
+                svgPath: 'assets/images/services.png',
+                type: 'services',
+                title: 'The future\nof learning',
+                desc:
+                    'Need help in learning? We offer the best services for assignment/homework help, live session, and many more from the best tutors & experts.',
+              ),
+              SizedBox(height: 64),
 
-            SizedBox(height: 64 * 2),
+              /// features
+              FeatureTile(
+                  isRight: false,
+                  svgPath: 'assets/images/features.png',
+                  type: 'features',
+                  title: 'Why\nPythagon?',
+                  desc:
+                      "Learning becomes more interesting when you have the best teachers around you."),
+              SizedBox(height: 64),
 
-            /// features
-            FeatureTile(
-              svgPath: 'assets/images/services.png',
-              isRight: false,
-            ),
-          ],
+              /// how we work
+              HowWeWork(),
+              SizedBox(height: 64),
+
+              Footer(),
+            ],
+          ),
         ),
       ),
     );

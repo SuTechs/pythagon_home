@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 
 class GetStartedButton extends StatelessWidget {
+  final String title;
+  final double height;
+  final double width;
+  final double fontSize;
+
+  const GetStartedButton({
+    Key? key,
+    this.title = 'Get Started',
+    this.height = 42,
+    this.width = 132,
+    this.fontSize = 14,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 42,
-      width: 132,
+      height: height,
+      width: width,
       child: ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(16),
@@ -15,10 +28,10 @@ class GetStartedButton extends StatelessWidget {
         ),
         onPressed: () {},
         child: Text(
-          'Get Started',
+          title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: fontSize,
             letterSpacing: 2,
           ),
         ),

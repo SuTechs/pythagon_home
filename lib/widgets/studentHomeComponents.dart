@@ -1,11 +1,63 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '/widgets/responsive.dart';
 import 'defaultPadding.dart';
 import 'getStartedButton.dart';
 
+/// become teacher floating tile
+class BecomeTeacherFloat extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        color: const Color(0xffffffff),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x29000000),
+            offset: Offset(0, 3),
+            blurRadius: 6,
+          ),
+        ],
+      ),
+      width: Responsive.width(context),
+      height: 40,
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Become Pythagon Experts and earn while you learn!',
+              style: TextStyle(
+                fontSize: Responsive.isMobile(context) ? 10 : 15,
+                fontWeight: Responsive.isMobile(context)
+                    ? FontWeight.w400
+                    : FontWeight.w600,
+                color: const Color(0xff292d34),
+                letterSpacing: Responsive.isMobile(context) ? 0.8 : 1.8,
+              ),
+            ),
+            SizedBox(width: Responsive.isMobile(context) ? 4 : 16),
+            GetStartedButton(
+              title: 'Join now!',
+              height: Responsive.isMobile(context) ? 30 * 0.8 : 30,
+              width: Responsive.isMobile(context) ? 92 * 0.8 : 92,
+              fontSize: Responsive.isMobile(context) ? 9 : 11,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Header
 class Header extends StatelessWidget {
+  final menus = ['Tutors', 'Sign in'];
+
   @override
   Widget build(BuildContext context) {
     return AnimatedPadding(
@@ -51,7 +103,7 @@ class Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              for (int i = 0; i < 5; i++)
+              for (String menu in menus)
                 AnimatedPadding(
                   duration: Duration(seconds: 1),
                   curve: Curves.easeInOut,
@@ -64,7 +116,7 @@ class Header extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Product',
+                    menu,
                     style: TextStyle(
                         fontSize: Responsive.values(
                           context: context,
@@ -278,12 +330,23 @@ class IconTileText extends StatelessWidget {
   }
 }
 
+/// body feature tile
+
 class FeatureTile extends StatelessWidget {
+  final String title;
+  final String desc;
+  final String type;
   final String svgPath;
   final bool isRight;
 
-  const FeatureTile({Key? key, required this.svgPath, this.isRight = true})
-      : super(key: key);
+  const FeatureTile({
+    Key? key,
+    required this.svgPath,
+    this.isRight = true,
+    required this.title,
+    required this.desc,
+    required this.type,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultAnimatedPadding(
@@ -293,7 +356,7 @@ class FeatureTile extends StatelessWidget {
               children: [
                 /// title
                 Text(
-                  'SERVICES',
+                  type.toUpperCase(),
                   style: TextStyle(
                     fontSize: 8,
                     color: const Color(0xff7b68ee),
@@ -303,7 +366,7 @@ class FeatureTile extends StatelessWidget {
 
                 /// headline
                 Text(
-                  'The future \nof learning',
+                  title,
                   style: TextStyle(
                     fontSize: 42,
                     color: const Color(0xff292d34),
@@ -337,7 +400,7 @@ class FeatureTile extends StatelessWidget {
 
                 SizedBox(height: 24),
                 Text(
-                  'Need help in learning? We offer the best services for assignment/homework help, live session, and many more from the best tutors & experts.',
+                  desc,
                   style: TextStyle(
                     fontSize: 12,
                     color: const Color(0xff9F9F9F),
@@ -359,8 +422,7 @@ class FeatureTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (isRight && Responsive.width(context) < 1250)
-                  SizedBox(width: 32),
+                if (isRight) SizedBox(width: 64),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -368,7 +430,7 @@ class FeatureTile extends StatelessWidget {
                     children: [
                       /// title
                       Text(
-                        'SERVICES',
+                        type.toUpperCase(),
                         style: TextStyle(
                           fontSize: 8,
                           color: const Color(0xff7b68ee),
@@ -378,7 +440,7 @@ class FeatureTile extends StatelessWidget {
 
                       /// headline
                       Text(
-                        'The future \nof learning',
+                        title,
                         style: TextStyle(
                           fontSize: 50,
                           color: const Color(0xff292d34),
@@ -411,7 +473,7 @@ class FeatureTile extends StatelessWidget {
                       SizedBox(height: 24),
 
                       Text(
-                        'Need help in learning? We offer the best services for\nassignment/homework help, live session, and many\nmore from the best tutors & experts.',
+                        desc,
                         style: TextStyle(
                           fontSize: 14,
                           color: const Color(0xff9F9F9F),
@@ -423,6 +485,332 @@ class FeatureTile extends StatelessWidget {
                 ),
               ],
             ),
+    );
+  }
+}
+
+/// how we work
+class HowWeWork extends StatelessWidget {
+  static const _kDesc =
+      "Customer support is out highest priority. We are here to answer you question via Support, Docs, Video Demos, and 24x7 Live Chat.";
+
+  @override
+  Widget build(BuildContext context) {
+    final tiles = [
+      TileWithTextAndButton(
+        color: const Color(0xff7b68ee),
+        title: 'Post Question',
+        image: 'assets/images/postQ.png',
+      ),
+      TileWithTextAndButton(
+        color: const Color(0xffEA6EAE),
+        title: 'Get Expert Help',
+        image: 'assets/images/expertHelp.png',
+      ),
+      TileWithTextAndButton(
+        color: const Color(0xffF9C833),
+        title: 'Excel!',
+        image: 'assets/images/excel.png',
+      ),
+    ];
+
+    final texts = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        /// headline
+        Text(
+          'Got questions?',
+          style: TextStyle(
+            fontSize: 42,
+            color: Colors.white,
+            letterSpacing: 2,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(
+          height: Responsive.values(
+            context: context,
+            desktop: 24,
+            tablet: 20,
+            mobile: 16,
+          ),
+        ),
+
+        /// divider
+        Container(
+          width: Responsive.isMobile(context) ? 75 : 91.0,
+          height: 6.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3.0),
+            color: const Color(0xffFFCB00),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0x29000000),
+                offset: Offset(0, 3),
+                blurRadius: 6,
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(
+          height: Responsive.values(
+            context: context,
+            desktop: 24,
+            tablet: 20,
+            mobile: 16,
+          ),
+        ),
+
+        SizedBox(
+          width: Responsive.isMobile(context) ? 500 : 300,
+          child: Text(
+            _kDesc,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              letterSpacing: 0.7,
+              height: 1.5,
+            ),
+          ),
+        ),
+      ],
+    );
+
+    final w = Container(
+      padding: EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4.0),
+        color: const Color(0xff945cf4),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x29000000),
+            offset: Offset(0, 3),
+            blurRadius: 6,
+          ),
+        ],
+      ),
+      child: Responsive.isMobile(context)
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 16),
+                texts,
+                SizedBox(height: 16),
+
+                /// slider
+                TileSlider(tiles: tiles),
+                SizedBox(height: 16),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: texts,
+                  flex: 2,
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: tiles,
+                  ),
+                )
+              ],
+            ),
+    );
+
+    return Responsive.isMobile(context) ? w : DefaultAnimatedPadding(child: w);
+  }
+}
+
+class TileWithTextAndButton extends StatelessWidget {
+  final Color color;
+  final String image;
+  final String title;
+
+  const TileWithTextAndButton(
+      {Key? key, required this.color, required this.image, required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: Responsive.isMobile(context) ? 330 : 187,
+      width: Responsive.isMobile(context) ? 330 : 187,
+      decoration: BoxDecoration(
+        color: const Color(0xffffffff),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x29000000),
+            offset: Offset(0, 3),
+            blurRadius: 6,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Image.asset(
+              image,
+            ),
+          ),
+          Container(
+            height: Responsive.isMobile(context) ? 92 : 52,
+            width: Responsive.isMobile(context) ? 262 : 148,
+            // padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color: color,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0x29000000),
+                  offset: Offset(0, 3),
+                  blurRadius: 6,
+                ),
+              ],
+            ),
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: Responsive.isMobile(context) ? 20 : 14,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+}
+
+class TileSlider extends StatefulWidget {
+  final List<TileWithTextAndButton> tiles;
+
+  const TileSlider({Key? key, required this.tiles}) : super(key: key);
+  @override
+  _TileSliderState createState() => _TileSliderState();
+}
+
+class _TileSliderState extends State<TileSlider> {
+  int _current = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      CarouselSlider(
+        items: widget.tiles,
+        options: CarouselOptions(
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            }),
+      ),
+      SizedBox(height: 8),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          for (int i = 0; i < widget.tiles.length; i++)
+            Container(
+              width: 8.0,
+              height: 8.0,
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _current == i ? Colors.white : Colors.white30,
+              ),
+            ),
+        ],
+      ),
+    ]);
+  }
+}
+
+/// footer
+class Footer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Divider(),
+        SizedBox(height: 12),
+        AnimatedPadding(
+          duration: Duration(seconds: 1),
+          curve: Curves.easeIn,
+          padding: EdgeInsets.symmetric(
+            horizontal: Responsive.values(
+              context: context,
+              desktop: 64 * 2,
+              tablet: 60,
+              mobile: 28,
+            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              /// logo
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/logo.svg',
+                    height: 60,
+                  ),
+                  Text(
+                    'Ythagon'.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: Responsive.values(
+                        context: context,
+                        desktop: 20,
+                        tablet: 18,
+                        mobile: 16,
+                      ),
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                ],
+              ),
+
+              Spacer(),
+
+              /// menu
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Image.asset('assets/icons/facebbok.png', height: 20),
+                      SizedBox(width: 16),
+                      Image.asset('assets/icons/twitter.png', height: 20),
+                      SizedBox(width: 16),
+                      Image.asset('assets/icons/instagram.png', height: 20),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    '©2021 Pythagon | Privacy | Terms',
+                    style: TextStyle(
+                      color: const Color(0xff7e8390),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 20),
+      ],
     );
   }
 }
